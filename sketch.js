@@ -1,8 +1,12 @@
 var boxes = [];
+var width = window.innerWidth;
+var height = window.innerHeight;
+var numBoxes = 50;
+var boxSize = 25;
 
 function setup() {
-	createCanvas(700,700);
-	for (var i = 0; i < 10; i ++){
+	createCanvas(window.innerWidth, window.windowHeight);
+	for (var i = 0; i < numBoxes; i++){
 		var newBox = new Box();
 		boxes.push(newBox);
 	}
@@ -10,23 +14,23 @@ function setup() {
 
 function draw() {
 	background(0);
-	for(var i = 0; i < 10; i++){
+	for(var i = 0; i < numBoxes; i++){
 		boxes[i].display();
 		boxes[i].update();
 	}
 }
 
 function Box(){
-	this.x = random(0, 650);
-	this.y = random(0, 650);
+	this.x = random(0, width - boxSize);
+	this.y = random(0, height - boxSize);
 	this.xSpeed = 0;
 	this.ySpeed = 0;
 	this.savedXSpeed;
 	this.savedYSpeed;
-	this.c = color(255, 255, 255);
+	this.c = color(random(0,255), random(0,255), random(0,255));
 	this.display = function(){
 		fill(this.c);
-		rect(this.x,this.y,50,50);
+		rect(this.x,this.y,boxSize, boxSize);
 	}
 	this.update = function(){
 		this.x += this.xSpeed;
@@ -40,7 +44,7 @@ function Box(){
 		}
 	}
 	this.hitWall = function(){
-		return this.x <= 0 || this.x >= 650 || this.y <= 0 || this.y >= 650;
+		return this.x <= 0 || this.x >= width - boxSize || this.y <= 0 || this.y >= height - boxSize;
 	}
 	//Change to random color
 	this.changeColor = function(){
@@ -50,14 +54,14 @@ function Box(){
 		this.c = color(a,b,c);
 	}
 	this.checkBounds = function(x, y){
-		if(x > 650){
-			x = 650;
+		if(x > width){
+			x = width;
 		}
 		else if(x < 0){
 			x = 0;
 		}
-		if(y > 650){
-			y = 650;
+		if(y > height){
+			y = height;
 		}
 		else if(y < 0){
 			y = 0;
@@ -68,7 +72,7 @@ function Box(){
 //Movement
 function keyPressed(){
 	if(keyCode === LEFT_ARROW){
-		for(var i = 0; i < 10; i++){
+		for(var i = 0; i < numBoxes; i++){
 			var box = boxes[i];
 			if(box.ySpeed !== 0){
 				if(box.ySpeed > 0){
@@ -83,7 +87,7 @@ function keyPressed(){
 		}	
 	}
 	if(keyCode === RIGHT_ARROW){
-		for(var i = 0; i < 10; i++){
+		for(var i = 0; i < numBoxes; i++){
 			var box = boxes[i];
 			if(box.ySpeed !== 0){
 				if(box.ySpeed > 0){
@@ -98,7 +102,7 @@ function keyPressed(){
 		}	
 	}
 	if(keyCode === UP_ARROW){
-		for(var i = 0; i < 10; i ++){
+		for(var i = 0; i < numBoxes; i ++){
 			var box = boxes[i];
 			if(box.xSpeed !== 0){
 				if(box.xSpeed > 0){
@@ -113,7 +117,7 @@ function keyPressed(){
 		}
 	}
 	if(keyCode === DOWN_ARROW){
-		for(var i = 0; i < 10; i++){
+		for(var i = 0; i < numBoxes; i++){
 			var box = boxes[i];
 			if(box.xSpeed !== 0){
 				if(box.xSpeed > 0){
@@ -128,7 +132,7 @@ function keyPressed(){
 		}
 	}
 	if(key === " "){
-		for(var i = 0; i < 10; i++){
+		for(var i = 0; i < numBoxes; i++){
 			var box = boxes[i];
 			if(box.xSpeed === 0 && box.ySpeed === 0){
 				box.xSpeed = box.savedXSpeed;
